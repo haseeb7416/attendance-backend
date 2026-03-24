@@ -1,7 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install -r requirements.txt"
+buildCommand = "pip install uvicorn fastapi sqlalchemy asyncpg python-dotenv pydantic[email] passlib bcrypt python-jose[cryptography]"
 
 [deploy]
 startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
-restartPolicyType = "on_failure"
