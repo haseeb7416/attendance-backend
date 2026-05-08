@@ -21,12 +21,18 @@ class Class(Base):
 
 class Student(Base):
     __tablename__ = "students"
+    id           = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    full_name    = Column(String(150), nullable=False)
+    student_code = Column(String(30), unique=True, nullable=False)
+    class_id     = Column(UUID(as_uuid=True), ForeignKey("classes.id"))
+    created_at   = Column(DateTime, default=datetime.datetime.utcnow)
+
+class StudentPhoto(Base):
+    __tablename__ = "student_photos"
     id             = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    full_name      = Column(String(150), nullable=False)
-    student_code   = Column(String(30), unique=True, nullable=False)
-    class_id       = Column(UUID(as_uuid=True), ForeignKey("classes.id"))
+    student_id     = Column(UUID(as_uuid=True), ForeignKey("students.id"))
+    photo_url      = Column(String(500), nullable=False)
     face_embedding = Column(String, nullable=True)
-    photo_url      = Column(String(500), nullable=True)
     created_at     = Column(DateTime, default=datetime.datetime.utcnow)
 
 class Session(Base):

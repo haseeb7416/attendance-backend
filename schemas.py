@@ -39,19 +39,16 @@ class ClassOut(BaseModel):
     class Config:
         from_attributes = True
 
-# Student
 class StudentCreate(BaseModel):
     full_name: str
     student_code: str
     class_id: UUID
-    photo_url: Optional[str] = None
 
 class StudentOut(BaseModel):
     id: UUID
     full_name: str
     student_code: str
     class_id: UUID
-    photo_url: Optional[str]
     class Config:
         from_attributes = True
 
@@ -65,6 +62,7 @@ class SessionCreate(BaseModel):
 class SessionOut(BaseModel):
     id: UUID
     class_id: UUID
+    teacher_id: UUID
     status: str
     started_at: datetime
     class Config:
@@ -97,3 +95,26 @@ class AttendanceReport(BaseModel):
     distracted_count: int
     sleeping_count: int
     phone_count: int
+    # Student Photo
+class StudentPhotoOut(BaseModel):
+    id: UUID
+    student_id: UUID
+    photo_url: str
+    face_embedding: Optional[str] = None
+    class Config:
+        from_attributes = True
+
+class PhotoEmbeddingUpdate(BaseModel):
+    face_embedding: List[float]
+
+class StudentWithPhotos(BaseModel):
+    id: UUID
+    full_name: str
+    student_code: str
+    class_id: UUID
+    photos: List[StudentPhotoOut] = []
+    class Config:
+        from_attributes = True
+
+class StudentPhotosAdd(BaseModel):
+    photo_urls: List[str]
